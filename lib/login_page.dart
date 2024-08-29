@@ -19,14 +19,14 @@ class _LoginPageState extends State<LoginPage> {
   bool passToggle =true;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
-  User?user;
+  User? user;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Login "),
+        title: Text("Login"),
         centerTitle: true,
 
       ),
