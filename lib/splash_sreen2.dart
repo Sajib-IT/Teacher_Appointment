@@ -19,19 +19,19 @@ _SplashScreenState2(this.selectedItem);
     // TODO: implement initState
     super.initState();
     if(selectedItem=='Student'){
-      Future.delayed(Duration(seconds: 3)).then((value) => {Navigator.of(context).pushReplacement(
+      Future.delayed(const Duration(seconds: 3)).then((value) => {Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) =>HomePage() ))
       });
     }
     else if(selectedItem=='Teacher'){
-      Future.delayed(Duration(seconds: 3)).then((value) => {Navigator.of(context).pushReplacement(
+      Future.delayed(const Duration(seconds: 3)).then((value) => {Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (ctx) => Homepage2() ))
       });
     }
 
   }
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return  const Scaffold(
       backgroundColor: Colors.white,
       body: SizedBox(
         width: double.infinity,
@@ -49,8 +49,8 @@ _SplashScreenState2(this.selectedItem);
               size: 50,
             ),
             SizedBox(height: 160,),
-            const Text('\n\n© Tech Group. All Rights Reserved.', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black)),
-            const Text('\nDeveloped By: Tech Titans', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
+            Text('\n\n© Tech Group. All Rights Reserved.', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black)),
+            Text('\nDeveloped By: Tech Titans', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.deepPurple)),
 
           ],
         ),
