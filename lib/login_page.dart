@@ -1,4 +1,3 @@
-import 'package:appointment/splash_screen.dart';
 import 'package:appointment/splash_sreen2.dart';
 import 'package:appointment/widgets/flutter_toast.dart' as toast;
 import 'package:appointment/widgets/my_dropdown_button.dart';
@@ -8,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({super.key});
-  String? selectedType ;
+  String? selectedType;
   List types = ['Teacher', 'Student'];
 
   @override
@@ -20,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   bool passToggle = true;
   bool isLoading = false;
-  toast.FlutterToast flutterToast = toast.FlutterToast() ;
+  toast.FlutterToast flutterToast = toast.FlutterToast();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
@@ -35,7 +34,10 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(height:200,width: 200, child: Image.asset('lib/assets/login.jpeg', width: 150)),
+              SizedBox(
+                  height: 200,
+                  width: 200,
+                  child: Image.asset('lib/assets/login.jpeg', width: 150)),
               const SizedBox(
                 height: 16,
               ),
@@ -46,9 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   onChanged: (v) {
                     widget.selectedType = v;
                   }),
-              const SizedBox(
-                height: 16
-              ),
+              const SizedBox(height: 16),
               TextField(
                 controller: emailController,
                 textInputAction: TextInputAction.next,
@@ -56,8 +56,8 @@ class _LoginPageState extends State<LoginPage> {
                     label: Text("Email", style: TextStyle(fontSize: 16)),
                     // hintText: 'Enter Email',
                     prefixIcon: Icon(Icons.email),
-                    contentPadding: EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 24.0),
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(8.0)),
                     )),
@@ -75,12 +75,11 @@ class _LoginPageState extends State<LoginPage> {
                           passToggle = !passToggle;
                         });
                       },
-                      child: Icon(passToggle
-                          ? Icons.visibility
-                          : Icons.visibility_off),
+                      child: Icon(
+                          passToggle ? Icons.visibility : Icons.visibility_off),
                     ),
-                    label: const Text("Password",
-                        style: TextStyle(fontSize: 16)),
+                    label:
+                        const Text("Password", style: TextStyle(fontSize: 16)),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 24.0),
                     border: const OutlineInputBorder(
@@ -96,25 +95,37 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(30.0),
                   child: MaterialButton(
                     onPressed: () async {
-                      if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty && widget.selectedType!=null){
-                        if ((widget.selectedType == 'Teacher' && await fireStoreDataValidation('teachers'))
-                            || (widget.selectedType == 'Student' && await fireStoreDataValidation('students'))) {
-                          flutterToast.toastMessage(msg: "Successfully Logged in");
+                      if (emailController.text.isNotEmpty &&
+                          passwordController.text.isNotEmpty &&
+                          widget.selectedType != null) {
+                        if ((widget.selectedType == 'Teacher' &&
+                                await fireStoreDataValidation('teachers')) ||
+                            (widget.selectedType == 'Student' &&
+                                await fireStoreDataValidation('students'))) {
+                          flutterToast.toastMessage(
+                              msg: "Successfully Logged in");
+                          if (!context.mounted) return;
                           goRoute(context);
-                        }else{
-                          flutterToast.toastMessage(msg: "Wrong email or Password",bgColor: Colors.red);
+                        } else {
+                          flutterToast.toastMessage(
+                              msg: "Wrong email or Password",
+                              bgColor: Colors.red);
                         }
-                      }else{
-                        flutterToast.toastMessage(msg: " Please fill all field ",bgColor: Colors.white24,textColor: Colors.black);
+                      } else {
+                        flutterToast.toastMessage(
+                            msg: " Please fill all field ",
+                            bgColor: Colors.white24,
+                            textColor: Colors.black);
                       }
                     },
-
-                    child: !isLoading ? const Text(
-                      "Sign In",
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ): const CircularProgressIndicator(),
+                    child: !isLoading
+                        ? const Text(
+                            "Sign In",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          )
+                        : const CircularProgressIndicator(),
                   ),
                 ),
               ),
@@ -142,14 +153,17 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  Future<bool> fireStoreDataValidation(String collectionName) async{
+
+  Future<bool> fireStoreDataValidation(String collectionName) async {
     setState(() {
       isLoading = true;
     });
 
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(collectionName).get();
-    for(var doc in querySnapshot.docs){
-      if(doc.get('email') == emailController.text && doc.get('pass') == passwordController.text){
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection(collectionName).get();
+    for (var doc in querySnapshot.docs) {
+      if (doc.get('email') == emailController.text &&
+          doc.get('pass') == passwordController.text) {
         return true;
       }
     }
@@ -159,9 +173,9 @@ class _LoginPageState extends State<LoginPage> {
 
     return false;
   }
-  void goRoute(BuildContext context){
+
+  void goRoute(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (ctx) =>
-            SplashScreen2( widget.selectedType!)));
+        builder: (ctx) => SplashScreen2(widget.selectedType!)));
   }
 }
